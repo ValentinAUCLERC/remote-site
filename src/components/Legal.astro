@@ -1,0 +1,48 @@
+---
+import { site } from '../i18n/content';
+interface Props { lang: 'fr' | 'en' }
+const fr = Astro.props.lang === 'fr';
+---
+<main class="legal wrap">
+  <a class="back" href={fr ? '/' : '/en/'}>← {fr ? 'Retour' : 'Back'}</a>
+  <h1>{fr ? 'Mentions légales' : 'Legal notice'}</h1>
+
+  <h2>{fr ? 'Éditeur du site' : 'Publisher'}</h2>
+  <p>
+    Valentin Auclerc, {fr ? 'Entrepreneur individuel à responsabilité limitée (EIRL)' : 'Entrepreneur individuel à responsabilité limitée (EIRL, French sole proprietorship with limited liability)'}<br />
+    4 rue de Vincennes, 45800 Saint-Jean-de-Braye, France<br />
+    SIREN 892 737 958 · SIRET 892 737 958 00025<br />
+    Contact : <a href={`mailto:${site.email}`}>{site.email}</a>
+  </p>
+  <p>{fr ? 'Directeur de la publication' : 'Publication director'} : Valentin Auclerc</p>
+
+  <h2>{fr ? 'Hébergement' : 'Hosting'}</h2>
+  <p>
+    GitHub, Inc. (GitHub Pages, GitHub Releases)<br />
+    88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, {fr ? 'États-Unis' : 'United States'}
+  </p>
+
+  <h2>{fr ? 'Données personnelles et cookies' : 'Personal data and cookies'}</h2>
+  <p>
+    {fr
+      ? "Ce site ne dépose aucun cookie, n'utilise aucun outil de mesure d'audience et ne collecte aucune donnée personnelle. Les polices sont servies depuis ce site. L'hébergeur peut journaliser l'adresse IP des visiteurs à des fins de sécurité, selon sa propre politique de confidentialité."
+      : 'This site sets no cookies, uses no analytics and collects no personal data. Fonts are self-hosted. The host may log visitor IP addresses for security purposes, under its own privacy policy.'}
+  </p>
+
+  <h2>{fr ? 'Logiciel' : 'Software'}</h2>
+  <p>
+    {fr
+      ? "Remote est fourni gratuitement, tel quel, sans garantie ni support. Il utilise FFmpeg (ffmpeg.org) sous licence LGPL v3 : la licence et l'origine des bibliothèques sont jointes au téléchargement (FFMPEG-LICENSE.txt, FFMPEG-NOTICE.txt)."
+      : 'Remote is provided free of charge, as is, with no warranty or support. It uses FFmpeg (ffmpeg.org) under the LGPL v3: the license and the origin of the libraries ship with the download (FFMPEG-LICENSE.txt, FFMPEG-NOTICE.txt).'}
+  </p>
+  <p>{fr ? 'NVIDIA, NVENC, Windows et Parsec sont des marques de leurs propriétaires respectifs.' : 'NVIDIA, NVENC, Windows and Parsec are trademarks of their respective owners.'}</p>
+</main>
+
+<style>
+  .legal { max-width: 760px; padding-top: 56px; padding-bottom: 80px; }
+  .back { color: var(--green); text-decoration: none; font-size: 13px; }
+  h1 { font: 800 clamp(34px, 6vw, 48px)/1.1 var(--sans); color: #fff; letter-spacing: -.02em; margin: 24px 0 28px; }
+  h2 { font: 700 18px var(--sans); color: var(--white); margin: 32px 0 8px; }
+  p { color: #9aa4af; font-size: 14px; margin: 0 0 12px; }
+  a { color: var(--green); }
+</style>

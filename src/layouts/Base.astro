@@ -1,0 +1,37 @@
+---
+import '@fontsource-variable/jetbrains-mono';
+import '@fontsource-variable/inter-tight';
+import '../styles/global.css';
+import { site } from '../i18n/content';
+
+interface Props {
+  lang: 'fr' | 'en';
+  title: string;
+  description: string;
+  alternate: { fr: string; en: string };
+}
+const { lang, title, description, alternate } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+---
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="alternate" hreflang="fr" href={new URL(alternate.fr, site.url).href} />
+  <link rel="alternate" hreflang="en" href={new URL(alternate.en, site.url).href} />
+  <link rel="alternate" hreflang="x-default" href={new URL(alternate.fr, site.url).href} />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta name="theme-color" content="#0b0d10" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <slot />
+</body>
+</html>

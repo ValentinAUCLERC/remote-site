@@ -1,0 +1,7 @@
+---
+import Base from '../layouts/Base.astro';
+import Home from '../components/Home.astro';
+import { content } from '../i18n/content';
+const t = content.fr;
+---
+<Base lang="fr" title={t.title} description={t.description} alternate={{ fr: '/', en: '/en/' }}><Home lang="fr" /></Base>
