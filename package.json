@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "version": "1.0.0",
-  "description": "Site de Remote (remote.auclerc.fr) et téléchargements",
+  "description": "Site de Remote (remote.valentin.auclerc.fr) et téléchargements",
   "scripts": {
     "dev": "astro dev --host",
     "build": "astro build",

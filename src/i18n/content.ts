@@ -1,7 +1,7 @@
 // Tous les textes du site (FR + EN). Le design est dans components/Home.astro.
 
 export const site = {
-  url: 'https://remote.auclerc.fr',
+  url: 'https://remote.valentin.auclerc.fr',
   author: 'Valentin Auclerc',
   authorUrl: 'https://valentin.auclerc.fr',
   email: 'valentin@auclerc.fr',
