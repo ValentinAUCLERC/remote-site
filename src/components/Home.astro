@@ -21,8 +21,9 @@ const n = (s: string) => parseFloat(s.replace(',', '.'));
       <h1>{t.hero.title[0]}<br /><em>{m.total.split(',')[0]} ms</em> {t.hero.title[1]}</h1>
       <p class="lead">{t.hero.lead}</p>
       <div class="cta">
-        <a class="btn" href={site.download}>{t.hero.cta}</a>
-        <span class="muted">{t.hero.meta} · {site.zipSize}</span>
+        {site.available
+          ? <><a class="btn" href={site.download}>{t.hero.cta}</a><span class="muted">{t.hero.meta} · {site.zipSize}</span></>
+          : <span class="btn off" aria-disabled="true">{t.hero.soon}</span>}
       </div>
     </div>
     <figure class="hud" aria-label={t.hud.caption}>
@@ -75,7 +76,7 @@ const n = (s: string) => parseFloat(s.replace(',', '.'));
     <dl class="needs">
       {t.install.needs.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}
     </dl>
-    <div class="cta"><a class="btn" href={site.download}>{t.hero.cta}</a><a class="muted" href={site.releases}>{t.footer.releases} →</a></div>
+    {site.available && <div class="cta"><a class="btn" href={site.download}>{t.hero.cta}</a><a class="muted" href={site.releases}>{t.footer.releases} →</a></div>}
   </section>
 
   <section class="wrap" id="depannage">
@@ -112,6 +113,7 @@ const n = (s: string) => parseFloat(s.replace(',', '.'));
   .cta { margin-top: 30px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
   .btn { background: var(--green); color: #06110a; font-weight: 700; padding: 13px 20px; border-radius: 4px; font-size: 14px; text-decoration: none; transition: filter .15s; }
   .btn:hover { filter: brightness(1.1); }
+  .btn.off { background: transparent; color: var(--green); border: 1px dashed #2f6b4a; cursor: default; filter: none; }
   .muted { font-size: 12px; color: var(--muted); }
 
   .hud { margin: 0; background: rgba(20, 24, 29, .92); border: 1px solid #232a32; border-radius: 6px; padding: 18px 20px; font-size: 13px; line-height: 1.75; }

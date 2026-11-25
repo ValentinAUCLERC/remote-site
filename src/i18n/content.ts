@@ -7,7 +7,8 @@ export const site = {
   email: 'valentin@auclerc.fr',
   download: 'https://github.com/ValentinAUCLERC/remote-site/releases/latest/download/remote-windows.zip',
   releases: 'https://github.com/ValentinAUCLERC/remote-site/releases',
-  // Mis à jour à chaque publication (scripts/release.sh).
+  // false tant qu'aucune release n'est publiée : bouton « bientôt » au lieu d'un lien mort.
+  available: false,
   zipSize: '57 Mo',
 };
 
@@ -26,6 +27,7 @@ const fr = {
       "Streaming de bureau et de jeu fait maison, à la Parsec : capture, encodage matériel, QUIC, décodage, affichage. Chaque milliseconde est mesurée et affichée.",
     cta: 'Télécharger pour Windows',
     meta: 'gratuit · zip',
+    soon: 'Téléchargement bientôt',
   },
   hud: {
     format: 'HEVC 4:2:0 · 1920×1200 @ 60 Hz',
@@ -126,6 +128,7 @@ const en: Content = {
       'Home-made desktop and game streaming, Parsec-style: capture, hardware encoding, QUIC, decoding, display. Every millisecond is measured and shown.',
     cta: 'Download for Windows',
     meta: 'free · zip',
+    soon: 'Download coming soon',
   },
   hud: {
     format: 'HEVC 4:2:0 · 1920×1200 @ 60 Hz',
