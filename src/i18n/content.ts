@@ -8,7 +8,7 @@ export const site = {
   download: 'https://github.com/ValentinAUCLERC/remote-site/releases/latest/download/remote-windows.zip',
   releases: 'https://github.com/ValentinAUCLERC/remote-site/releases',
   // false tant qu'aucune release n'est publiée : bouton « bientôt » au lieu d'un lien mort.
-  available: false,
+  available: true,
   zipSize: '57 Mo',
 };
 
