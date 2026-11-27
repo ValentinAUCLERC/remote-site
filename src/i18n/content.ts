@@ -69,7 +69,7 @@ const fr = {
       'Choix de l’écran à afficher quand le PC en a plusieurs',
       'Fenêtres administrateur pilotables (service Windows)',
       'Reconnexion automatique après une coupure',
-      'Mises à jour automatiques et signées : le client Windows se met à la version du PC',
+      'Mises à jour automatiques et signées : le client (Windows ou Mac) se met à la version du PC',
       'Client Mac : décodage VideoToolbox, affichage Metal',
     ],
   },
@@ -99,7 +99,7 @@ const fr = {
       },
       {
         q: 'Sur Mac : « Remote est endommagé » ou « ne peut pas être ouvert »',
-        a: "L'appli n'est pas notariée par Apple (même raison que pour Windows). Une fois Remote dans Applications, dans le Terminal : xattr -dr com.apple.quarantine /Applications/Remote.app. Le client Mac ne se met pas à jour tout seul : le retélécharger quand le PC partagé change de version.",
+        a: "L'appli n'est pas notariée par Apple (même raison que pour Windows). Une fois Remote dans Applications, dans le Terminal : xattr -dr com.apple.quarantine /Applications/Remote.app. Ensuite, il se met tout seul à la version du PC partagé à chaque connexion.",
       },
       {
         q: 'Le PC n’apparaît pas dans « Sur ce réseau »',
@@ -178,7 +178,7 @@ const en: Content = {
       'Pick which screen to show when the PC has several',
       'Admin windows can be controlled (Windows service)',
       'Automatic reconnection after a drop',
-      'Automatic, signed updates: the Windows client follows the PC’s version',
+      'Automatic, signed updates: the client (Windows or Mac) follows the PC’s version',
       'Mac client: VideoToolbox decoding, Metal display',
     ],
   },
@@ -208,7 +208,7 @@ const en: Content = {
       },
       {
         q: 'On a Mac: “Remote is damaged” or “cannot be opened”',
-        a: 'The app is not notarized by Apple (same reason as on Windows). Once Remote is in Applications, run in Terminal: xattr -dr com.apple.quarantine /Applications/Remote.app. The Mac client does not update itself: download it again when the shared PC changes version.',
+        a: 'The app is not notarized by Apple (same reason as on Windows). Once Remote is in Applications, run in Terminal: xattr -dr com.apple.quarantine /Applications/Remote.app. After that, it follows the shared PC’s version by itself at each connection.',
       },
       {
         q: 'The PC does not show up under “Sur ce réseau”',
