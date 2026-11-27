@@ -22,7 +22,7 @@ const n = (s: string) => parseFloat(s.replace(',', '.'));
       <p class="lead">{t.hero.lead}</p>
       <div class="cta">
         {site.available
-          ? <><a class="btn" href={site.download}>{t.hero.cta}</a><span class="muted">{t.hero.meta} · {site.zipSize}</span></>
+          ? <><a class="btn" href={site.download}>{t.hero.cta}</a><span class="muted">{t.hero.meta} · {site.zipSize}</span><a class="mac" href={site.macDownload}>{t.hero.ctaMac} <span class="muted">· {t.hero.macMeta} · {site.macZipSize}</span></a></>
           : <span class="btn off" aria-disabled="true">{t.hero.soon}</span>}
       </div>
     </div>
@@ -76,7 +76,7 @@ const n = (s: string) => parseFloat(s.replace(',', '.'));
     <dl class="needs">
       {t.install.needs.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}
     </dl>
-    {site.available && <div class="cta"><a class="btn" href={site.download}>{t.hero.cta}</a><a class="muted" href={site.releases}>{t.footer.releases} →</a></div>}
+    {site.available && <div class="cta"><a class="btn" href={site.download}>{t.hero.cta}</a><a class="mac" href={site.macDownload}>{t.hero.ctaMac} <span class="muted">· {t.hero.macMeta}</span></a><a class="muted" href={site.releases}>{t.footer.releases} →</a></div>}
   </section>
 
   <section class="wrap" id="depannage">
@@ -111,6 +111,8 @@ const n = (s: string) => parseFloat(s.replace(',', '.'));
   h1 em { font-style: normal; color: var(--green); }
   .lead { margin: 22px 0 0; color: #9aa4af; max-width: 46ch; }
   .cta { margin-top: 30px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+  .mac { font-size: 14px; color: var(--text); }
+  .hero .mac { flex-basis: 100%; }
   .btn { background: var(--green); color: #06110a; font-weight: 700; padding: 13px 20px; border-radius: 4px; font-size: 14px; text-decoration: none; transition: filter .15s; }
   .btn:hover { filter: brightness(1.1); }
   .btn.off { background: transparent; color: var(--green); border: 1px dashed #2f6b4a; cursor: default; filter: none; }

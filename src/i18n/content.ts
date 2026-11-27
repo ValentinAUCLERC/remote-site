@@ -10,6 +10,9 @@ export const site = {
   // false tant qu'aucune release n'est publiée : bouton « bientôt » au lieu d'un lien mort.
   available: true,
   zipSize: '57 Mo',
+  // Client Mac (Apple silicon) : publié avec chaque release depuis v4.
+  macDownload: 'https://github.com/ValentinAUCLERC/remote-site/releases/latest/download/remote-macos.zip',
+  macZipSize: '9 Mo',
 };
 
 // Mesure réelle : RTX 5090 → portable (Intel Arc), réseau local, 1920×1200 à 60 Hz, HEVC.
@@ -26,6 +29,8 @@ const fr = {
     lead:
       "Streaming de bureau et de jeu fait maison, à la Parsec : capture, encodage matériel, QUIC, décodage, affichage. Chaque milliseconde est mesurée et affichée.",
     cta: 'Télécharger pour Windows',
+    ctaMac: 'Télécharger pour Mac',
+    macMeta: 'client, Apple silicon',
     meta: 'gratuit · zip',
     soon: 'Téléchargement bientôt',
   },
@@ -64,7 +69,8 @@ const fr = {
       'Choix de l’écran à afficher quand le PC en a plusieurs',
       'Fenêtres administrateur pilotables (service Windows)',
       'Reconnexion automatique après une coupure',
-      'Mises à jour automatiques et signées : le client se met à la version du PC',
+      'Mises à jour automatiques et signées : le client Windows se met à la version du PC',
+      'Client Mac : décodage VideoToolbox, affichage Metal',
     ],
   },
   install: {
@@ -72,10 +78,11 @@ const fr = {
     needs: [
       { k: 'PC à partager', v: 'Windows 64 bits, carte NVIDIA (NVENC)' },
       { k: 'PC qui se connecte', v: 'Windows 64 bits, décodage HEVC matériel (la plupart des PC récents)' },
+      { k: 'Ou un Mac', v: 'Apple silicon (M1 et suivants), macOS 13 ou plus récent' },
     ],
     steps: [
       { k: 'Sur le PC à partager', v: 'Dézipper, lancer remote.exe, onglet « Ce PC », puis « Installer le service ».' },
-      { k: 'Sur l’autre PC, même réseau', v: '« Se connecter », choisir le PC dans « Sur ce réseau », saisir le code affiché sur le PC partagé.' },
+      { k: 'Sur l’autre PC, même réseau', v: '« Se connecter », choisir le PC dans « Sur ce réseau », saisir le code affiché sur le PC partagé. Sur Mac : glisser Remote dans Applications, puis voir « Dépannage ».' },
       { k: 'Ensuite, de partout', v: 'Le nom du PC suffit, en Wi-Fi, en 4G ou au bureau.' },
     ],
   },
@@ -88,7 +95,11 @@ const fr = {
       },
       {
         q: '« Appairage possible seulement depuis le même réseau »',
-        a: "Voulu : le premier appairage se fait sur place, pour qu'un inconnu sur Internet ne puisse pas tenter de codes. Ensuite, la connexion marche de partout.",
+        a: "Voulu : le premier appairage se fait sur place (ou depuis le même réseau Tailscale), pour qu'un inconnu sur Internet ne puisse pas tenter de codes. Ensuite, la connexion marche de partout.",
+      },
+      {
+        q: 'Sur Mac : « Remote est endommagé » ou « ne peut pas être ouvert »',
+        a: "L'appli n'est pas notariée par Apple (même raison que pour Windows). Une fois Remote dans Applications, dans le Terminal : xattr -dr com.apple.quarantine /Applications/Remote.app. Le client Mac ne se met pas à jour tout seul : le retélécharger quand le PC partagé change de version.",
       },
       {
         q: 'Le PC n’apparaît pas dans « Sur ce réseau »',
@@ -127,6 +138,8 @@ const en: Content = {
     lead:
       'Home-made desktop and game streaming, Parsec-style: capture, hardware encoding, QUIC, decoding, display. Every millisecond is measured and shown.',
     cta: 'Download for Windows',
+    ctaMac: 'Download for Mac',
+    macMeta: 'client, Apple silicon',
     meta: 'free · zip',
     soon: 'Download coming soon',
   },
@@ -165,7 +178,8 @@ const en: Content = {
       'Pick which screen to show when the PC has several',
       'Admin windows can be controlled (Windows service)',
       'Automatic reconnection after a drop',
-      'Automatic, signed updates: the client follows the PC’s version',
+      'Automatic, signed updates: the Windows client follows the PC’s version',
+      'Mac client: VideoToolbox decoding, Metal display',
     ],
   },
   install: {
@@ -173,10 +187,11 @@ const en: Content = {
     needs: [
       { k: 'PC to share', v: '64-bit Windows, NVIDIA card (NVENC)' },
       { k: 'Connecting PC', v: '64-bit Windows, hardware HEVC decoding (most recent PCs)' },
+      { k: 'Or a Mac', v: 'Apple silicon (M1 and later), macOS 13 or newer' },
     ],
     steps: [
       { k: 'On the PC to share', v: 'Unzip, run remote.exe, “Ce PC” tab, then “Installer le service”.' },
-      { k: 'On the other PC, same network', v: '“Se connecter”, pick the PC under “Sur ce réseau”, type the code shown on the shared PC.' },
+      { k: 'On the other PC, same network', v: '“Se connecter”, pick the PC under “Sur ce réseau”, type the code shown on the shared PC. On a Mac: drag Remote to Applications, then see “Troubleshooting”.' },
       { k: 'Then, from anywhere', v: 'The PC’s name is enough, on Wi-Fi, 4G or at the office.' },
     ],
   },
@@ -189,7 +204,11 @@ const en: Content = {
       },
       {
         q: '“Pairing only from the same network”',
-        a: 'On purpose: the first pairing happens on site, so a stranger on the Internet cannot try codes. After that, connecting works from anywhere.',
+        a: 'On purpose: the first pairing happens on site (or from the same Tailscale network), so a stranger on the Internet cannot try codes. After that, connecting works from anywhere.',
+      },
+      {
+        q: 'On a Mac: “Remote is damaged” or “cannot be opened”',
+        a: 'The app is not notarized by Apple (same reason as on Windows). Once Remote is in Applications, run in Terminal: xattr -dr com.apple.quarantine /Applications/Remote.app. The Mac client does not update itself: download it again when the shared PC changes version.',
       },
       {
         q: 'The PC does not show up under “Sur ce réseau”',
