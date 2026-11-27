@@ -1,20 +1,30 @@
+/* Jetons communs appli + site (remote/docs/design/maquettes-v10/SPEC.md § 1, D64). */
 :root {
-  --bg: #0b0d10;
-  --panel: #14181d;
-  --line: #1f262e;
-  --text: #d6dbe1;
-  --muted: #8b95a0;
-  --white: #f3f5f7;
-  --green: #5df0a0;
-  --blue: #58a6ff;
-  --amber: #e3b341;
+  --side: #0e0f11;
+  --bg: #121315;
+  --card: #18191c;
+  --raised: #202125;
+  --hover: #26272b;
+  --line: #222327;
+  --t1: #ededee;
+  --t2: #a3a5ab;
+  --t3: #7d7f86;
+  --acc: #5df0a0;
+  --on-acc: #06120b;
+  --warn: #e3b341;
+  --danger: #e8787b;
   --mono: 'JetBrains Mono Variable', ui-monospace, Consolas, monospace;
   --sans: 'Inter Tight Variable', system-ui, 'Segoe UI', sans-serif;
 }
 * { box-sizing: border-box; }
 html { background: var(--bg); color-scheme: dark; scroll-behavior: smooth; }
-body { margin: 0; color: var(--text); font: 15px/1.6 var(--mono); -webkit-font-smoothing: antialiased; }
+body { margin: 0; color: var(--t1); font: 400 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
+p, dd, li, figcaption { text-wrap: pretty; }
+h1, h2, h3 { text-wrap: balance; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
-:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; border-radius: 4px; }
+svg.i { width: 1.15em; height: 1.15em; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@media (max-width: 480px) { .wrap { padding: 0 20px; } }

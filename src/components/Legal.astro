@@ -40,9 +40,10 @@ const fr = Astro.props.lang === 'fr';
 
 <style>
   .legal { max-width: 760px; padding-top: 56px; padding-bottom: 80px; }
-  .back { color: var(--green); text-decoration: none; font-size: 13px; }
-  h1 { font: 800 clamp(34px, 6vw, 48px)/1.1 var(--sans); color: #fff; letter-spacing: -.02em; margin: 24px 0 28px; }
-  h2 { font: 700 18px var(--sans); color: var(--white); margin: 32px 0 8px; }
-  p { color: #9aa4af; font-size: 14px; margin: 0 0 12px; }
-  a { color: var(--green); }
+  .back { color: var(--t2); text-decoration: none; font-size: 14px; }
+  .back:hover { color: var(--t1); }
+  h1 { font: 600 clamp(34px, 6vw, 48px)/1.1 var(--sans); color: var(--t1); letter-spacing: -.03em; margin: 24px 0 28px; }
+  h2 { font: 600 18px var(--sans); color: var(--t1); margin: 32px 0 8px; }
+  p { color: var(--t2); font-size: 15px; margin: 0 0 12px; }
+  a { color: var(--acc); text-underline-offset: 3px; }
 </style>

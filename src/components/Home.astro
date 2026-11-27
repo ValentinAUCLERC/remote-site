@@ -1,49 +1,48 @@
 ---
 import { content, site, measure, type Lang } from '../i18n/content';
+import AppWindow from './AppWindow.astro';
+import InviteDemo from './InviteDemo.astro';
 interface Props { lang: Lang }
 const t = content[Astro.props.lang];
 const m = measure;
 const n = (s: string) => parseFloat(s.replace(',', '.'));
+const pad = (i: number) => String(i + 1).padStart(2, '0');
 ---
 <header class="wrap top">
-  <a class="brand" href={t.lang === 'fr' ? '/' : '/en/'}>REMOTE</a>
+  <a class="brand" href={t.lang === 'fr' ? '/' : '/en/'}>
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="8" width="22" height="14" rx="2" fill="none" stroke="#5df0a0" stroke-width="2.6"/><path d="M12 27h8" stroke="#5df0a0" stroke-width="2.6" stroke-linecap="round"/></svg>
+    Remote
+  </a>
   <nav>
     <a href="#fonctionnement">{t.nav.how}</a>
+    <a href="#comptes">{t.nav.accounts}</a>
     <a href="#installer">{t.nav.install}</a>
     <a href="#depannage">{t.nav.help}</a>
-    <a href={t.nav.otherHref} lang={t.lang === 'fr' ? 'en' : 'fr'}>{t.nav.other}</a>
+    <a class="lang" href={t.nav.otherHref} lang={t.lang === 'fr' ? 'en' : 'fr'}>{t.nav.other}</a>
   </nav>
 </header>
 
 <main>
   <section class="wrap hero">
+    <h1>{t.hero.title[0]}<br /><em>{m.total.split(',')[0]} ms</em> {t.hero.title[1]}</h1>
     <div>
-      <h1>{t.hero.title[0]}<br /><em>{m.total.split(',')[0]} ms</em> {t.hero.title[1]}</h1>
       <p class="lead">{t.hero.lead}</p>
-      <div class="cta">
-        {site.available
-          ? <><a class="btn" href={site.download}>{t.hero.cta}</a><span class="muted">{t.hero.meta} · {site.zipSize}</span><a class="mac" href={site.macDownload}>{t.hero.ctaMac} <span class="muted">· {t.hero.macMeta} · {site.macZipSize}</span></a></>
-          : <span class="btn off" aria-disabled="true">{t.hero.soon}</span>}
-      </div>
+      {site.available
+        ? <>
+            <div class="cta">
+              <a class="btn p" href={site.download}>{t.hero.cta}</a>
+              <a class="btn s" href={site.macDownload}>{t.hero.ctaMac}</a>
+            </div>
+            <p class="dl-meta"><span>Windows · {t.hero.meta} · <span class="mono">{site.zipSize}</span></span><span>Mac · {t.hero.macMeta} · <span class="mono">{site.macZipSize}</span></span></p>
+          </>
+        : <div class="cta"><span class="btn off" aria-disabled="true">{t.hero.soon}</span></div>}
     </div>
-    <figure class="hud" aria-label={t.hud.caption}>
-      <div class="hud-t">{t.hud.format}</div>
-      <div class="hud-big">{m.total} ms</div>
-      <div class="bar" aria-hidden="true">
-        <i style={`flex:${n(m.host)};background:var(--blue)`}></i>
-        <i style={`flex:${n(m.net)};background:var(--green)`}></i>
-        <i style={`flex:${n(m.client)};background:var(--amber)`}></i>
-      </div>
-      <div class="legend">
-        <span style="--c:var(--blue)">{t.hud.host} {m.host}</span>
-        <span style="--c:var(--green)">{t.hud.net} {m.net}</span>
-        <span style="--c:var(--amber)">{t.hud.client} {m.client}</span>
-      </div>
-      <svg class="spark" viewBox="0 0 300 38" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="var(--blue)" stroke-width="1.5" vector-effect="non-scaling-stroke" points="0,28 20,27 40,29 60,26 80,28 100,27 120,25 140,28 160,8 170,27 190,28 210,26 230,28 250,27 270,29 300,27" /></svg>
-      <div class="hud-line">{t.hud.line(m.rtt)}</div>
-      <figcaption>{t.hud.caption}</figcaption>
-    </figure>
   </section>
+
+  <figure class="wrap shot-fig">
+    <AppWindow label={t.window.label} />
+    <figcaption>{t.window.caption}</figcaption>
+  </figure>
 
   <section class="wrap">
     <dl class="facts">
@@ -54,29 +53,58 @@ const n = (s: string) => parseFloat(s.replace(',', '.'));
   <section class="wrap" id="fonctionnement">
     <h2>{t.how.title}</h2>
     <ol class="pipe">
-      {t.how.steps.map((s) => <li><b>{s.k}</b><span>{s.v}</span></li>)}
+      {t.how.steps.map((s, i) => <li><span class="num mono">{pad(i)}</span><b>{s.k}</b><span>{s.v}</span></li>)}
     </ol>
     <div class="split">
       <div>
         <h3>{t.how.pathTitle}</h3>
         <p>{t.how.path}</p>
-      </div>
-      <div>
-        <h3>{t.features.title}</h3>
+        <h3 class="feat-t">{t.features.title}</h3>
         <ul class="feat">{t.features.list.map((f) => <li>{f}</li>)}</ul>
       </div>
+      <figure class="hud" aria-label={t.hud.caption}>
+        <div class="hud-t">{t.hud.format}</div>
+        <div class="hud-big">{m.total} ms</div>
+        <div class="bar" aria-hidden="true">
+          <i style={`flex:${n(m.host)};background:var(--c-host)`}></i>
+          <i style={`flex:${n(m.net)};background:var(--c-net)`}></i>
+          <i style={`flex:${n(m.client)};background:var(--c-client)`}></i>
+        </div>
+        <div class="legend">
+          <span style="--c:var(--c-host)">{t.hud.host} {m.host}</span>
+          <span style="--c:var(--c-net)">{t.hud.net} {m.net}</span>
+          <span style="--c:var(--c-client)">{t.hud.client} {m.client}</span>
+        </div>
+        <svg class="spark" viewBox="0 0 300 38" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="var(--c-host)" stroke-width="1.5" vector-effect="non-scaling-stroke" points="0,28 20,27 40,29 60,26 80,28 100,27 120,25 140,28 160,8 170,27 190,28 210,26 230,28 250,27 270,29 300,27" /></svg>
+        <div class="hud-line">{t.hud.line(m.rtt)}</div>
+        <figcaption>{t.hud.caption}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap" id="comptes">
+    <h2>{t.accounts.title}</h2>
+    <p class="sec-lead">{t.accounts.lead}</p>
+    <div class="acc">
+      <div>
+        <dl class="points">
+          {t.accounts.items.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}
+        </dl>
+        <p class="noacc"><b>{t.accounts.noAccount.k}</b> {t.accounts.noAccount.v}</p>
+      </div>
+      <InviteDemo label={t.accounts.demoLabel} />
     </div>
   </section>
 
   <section class="wrap" id="installer">
     <h2>{t.install.title}</h2>
     <ol class="steps">
-      {t.install.steps.map((s) => <li><b>{s.k}</b><span>{s.v}</span></li>)}
+      {t.install.steps.map((s, i) => <li><span class="num mono">{pad(i)}</span><b>{s.k}</b><span>{s.v}</span></li>)}
     </ol>
     <dl class="needs">
       {t.install.needs.map((x) => <div><dt>{x.k}</dt><dd>{x.v}</dd></div>)}
     </dl>
-    {site.available && <div class="cta"><a class="btn" href={site.download}>{t.hero.cta}</a><a class="mac" href={site.macDownload}>{t.hero.ctaMac} <span class="muted">· {t.hero.macMeta}</span></a><a class="muted" href={site.releases}>{t.footer.releases} →</a></div>}
+    {site.available && <div class="cta"><a class="btn p" href={site.download}>{t.hero.cta}</a><a class="btn s" href={site.macDownload}>{t.hero.ctaMac}</a><a class="more" href={site.releases}>{t.footer.releases} →</a></div>}
   </section>
 
   <section class="wrap" id="depannage">
@@ -89,7 +117,7 @@ const n = (s: string) => parseFloat(s.replace(',', '.'));
   <section class="wrap about">
     <h2>{t.about.title}</h2>
     <p>{t.about.text}</p>
-    <p class="muted">{t.about.by} <a href={site.authorUrl}>{site.author}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+    <p class="by">{t.about.by} <a href={site.authorUrl}>{site.author}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
   </section>
 </main>
 
@@ -100,84 +128,117 @@ const n = (s: string) => parseFloat(s.replace(',', '.'));
 </footer>
 
 <style>
-  .top { display: flex; justify-content: space-between; align-items: center; padding-top: 26px; padding-bottom: 26px; font-size: 13px; color: var(--muted); }
-  .brand { color: var(--white); font-weight: 700; letter-spacing: .1em; text-decoration: none; }
-  .top nav { display: flex; gap: 22px; }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-top: 22px; padding-bottom: 22px; font-size: 14px; color: var(--t2); }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--t1); font-weight: 600; font-size: 16px; text-decoration: none; }
+  .brand svg { width: 22px; height: 22px; }
+  .top nav { display: flex; gap: 24px; }
   .top nav a { text-decoration: none; }
-  .top nav a:hover { color: var(--white); }
+  .top nav a:hover { color: var(--t1); }
+  .top .lang { color: var(--t1); }
 
-  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; padding-top: 48px; padding-bottom: 24px; }
-  h1 { font: 800 clamp(40px, 6vw, 60px)/1.02 var(--sans); color: #fff; letter-spacing: -.025em; margin: 0; }
-  h1 em { font-style: normal; color: var(--green); }
-  .lead { margin: 22px 0 0; color: #9aa4af; max-width: 46ch; }
-  .cta { margin-top: 30px; display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-  .mac { font-size: 14px; color: var(--text); }
-  .hero .mac { flex-basis: 100%; }
-  .btn { background: var(--green); color: #06110a; font-weight: 700; padding: 13px 20px; border-radius: 4px; font-size: 14px; text-decoration: none; transition: filter .15s; }
-  .btn:hover { filter: brightness(1.1); }
-  .btn.off { background: transparent; color: var(--green); border: 1px dashed #2f6b4a; cursor: default; filter: none; }
-  .muted { font-size: 12px; color: var(--muted); }
+  .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: end; padding-top: 56px; }
+  h1 { font: 600 clamp(40px, 6vw, 62px)/1.04 var(--sans); letter-spacing: -.03em; margin: 0; }
+  h1 em { font-style: normal; color: var(--acc); }
+  .lead { margin: 0; color: var(--t2); font-size: 17px; max-width: 44ch; }
+  .cta { margin-top: 26px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; height: 42px; padding: 0 18px; border-radius: 8px; font-size: 15px; font-weight: 500; text-decoration: none; transition: background-color .15s; }
+  .btn.p { background: var(--acc); color: var(--on-acc); }
+  .btn.p:hover { background: #7cf4b3; }
+  .btn.s { background: var(--raised); color: var(--t1); box-shadow: inset 0 0 0 1px #2c2d32; }
+  .btn.s:hover { background: var(--hover); }
+  .btn.off { background: transparent; color: var(--t2); box-shadow: inset 0 0 0 1px var(--line); cursor: default; }
+  .dl-meta { margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 13px; color: var(--t3); }
 
-  .hud { margin: 0; background: rgba(20, 24, 29, .92); border: 1px solid #232a32; border-radius: 6px; padding: 18px 20px; font-size: 13px; line-height: 1.75; }
-  .hud-t { color: var(--blue); font-weight: 700; }
-  .hud-big { font-size: 46px; color: #fff; font-weight: 700; line-height: 1.1; margin: 6px 0 10px; }
-  .bar { display: flex; height: 10px; border-radius: 2px; overflow: hidden; gap: 2px; margin: 4px 0 12px; }
-  .bar i { display: block; }
-  .legend { display: flex; gap: 16px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
-  .legend span::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 6px; background: var(--c); }
-  .spark { margin-top: 12px; height: 38px; width: 100%; display: block; }
-  .hud-line { color: var(--muted); }
-  .hud figcaption { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 11px; color: #6b7580; }
+  .shot-fig { margin-top: 56px; margin-bottom: 0; }
+  .shot-fig figcaption { margin-top: 14px; font-size: 13px; color: var(--t3); max-width: 80ch; }
 
-  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 64px 0 0; }
-  .facts div { background: var(--bg); padding: 18px; }
-  .facts dt { color: #fff; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-  .facts dd { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 72px 0 0; }
+  .facts div { padding: 22px 20px 22px 0; }
+  .facts div + div { padding-left: 20px; border-left: 1px solid var(--line); }
+  .facts dt { font-size: 24px; font-weight: 600; letter-spacing: -.01em; margin-bottom: 6px; }
+  .facts dd { margin: 0; font-size: 14px; color: var(--t2); line-height: 1.5; }
 
-  h2 { font: 700 26px/1.2 var(--sans); color: #fff; margin: 88px 0 22px; letter-spacing: -.01em; }
-  h3 { font: 700 15px/1.3 var(--sans); color: var(--white); margin: 0 0 10px; }
+  h2 { font: 600 30px/1.2 var(--sans); margin: 104px 0 24px; letter-spacing: -.02em; }
+  h3 { font: 600 17px/1.3 var(--sans); margin: 0 0 10px; }
+  .sec-lead { margin: -8px 0 36px; color: var(--t2); font-size: 17px; max-width: 62ch; }
+  .num { display: block; font-size: 12.5px; color: var(--t3); margin-bottom: 10px; }
 
-  .pipe { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
-  .pipe li { background: var(--panel); padding: 18px; font-size: 13px; color: #9aa4af; position: relative; }
-  .pipe li b { display: block; color: var(--green); margin-bottom: 8px; }
-  .pipe li:not(:last-child)::after { content: '→'; position: absolute; right: -9px; top: 16px; color: #3a444f; z-index: 1; }
+  .pipe { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .pipe li { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; font-size: 14.5px; color: var(--t2); }
+  .pipe li b { display: block; color: var(--t1); font-weight: 600; margin-bottom: 6px; }
 
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 40px; font-size: 14px; color: #9aa4af; }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px; color: var(--t2); align-items: start; }
   .split p { margin: 0; }
-  .feat { margin: 0; padding: 0; list-style: none; }
-  .feat li { padding: 5px 0 5px 18px; position: relative; border-bottom: 1px solid var(--line); }
-  .feat li::before { content: '+'; position: absolute; left: 0; color: var(--green); }
+  .feat-t { margin-top: 32px; }
+  .feat { margin: 0; padding: 0; list-style: none; font-size: 15px; }
+  .feat li { padding: 8px 0 8px 20px; position: relative; border-bottom: 1px solid var(--line); }
+  .feat li::before { content: ''; position: absolute; left: 2px; top: 17px; width: 6px; height: 6px; border-radius: 50%; background: var(--acc); }
 
-  .steps { list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding: 0; margin: 0; }
-  .steps li { counter-increment: s; border-top: 1px solid #2a323b; padding-top: 14px; font-size: 13px; color: #9aa4af; }
-  .steps li::before { content: '0' counter(s); color: var(--green); font-weight: 700; display: block; margin-bottom: 6px; }
-  .steps b { display: block; color: var(--white); }
-  .needs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 36px; margin: 32px 0 0; font-size: 13px; }
-  .needs dt { color: var(--muted); }
-  .needs dd { margin: 0; color: var(--text); }
+  .hud { --c-host: #58a6ff; --c-net: var(--acc); --c-client: var(--warn); margin: 0; background: var(--side); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; font: 13px/1.75 var(--mono); font-variant-numeric: tabular-nums; color: var(--t1); }
+  .hud-t { color: var(--c-host); font-weight: 600; }
+  .hud-big { font-size: 46px; font-weight: 600; line-height: 1.1; margin: 6px 0 12px; }
+  .bar { display: flex; height: 10px; border-radius: 3px; overflow: hidden; gap: 2px; margin: 4px 0 12px; }
+  .bar i { display: block; }
+  .legend { display: flex; gap: 16px; font-size: 12.5px; color: var(--t2); flex-wrap: wrap; }
+  .legend span::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; background: var(--c); }
+  .spark { margin-top: 12px; height: 38px; width: 100%; display: block; }
+  .hud-line { color: var(--t2); }
+  .hud figcaption { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font: 13px/1.5 var(--sans); color: var(--t3); }
+
+  .acc { display: grid; grid-template-columns: 1fr minmax(0, 440px); gap: 56px; align-items: start; }
+  .points { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 28px 32px; }
+  .points dt { font-weight: 600; margin-bottom: 6px; }
+  .points dd { margin: 0; color: var(--t2); font-size: 15px; }
+  .noacc { margin: 32px 0 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--t2); font-size: 15px; }
+  .noacc b { color: var(--t1); font-weight: 600; margin-right: 4px; }
+
+  .steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 0; margin: 0; }
+  .steps li { border-top: 1px solid var(--line); padding-top: 16px; font-size: 14.5px; color: var(--t2); }
+  .steps b { display: block; color: var(--t1); font-weight: 600; margin-bottom: 4px; }
+  .needs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 32px; margin: 40px 0 0; font-size: 14.5px; }
+  .needs dt { color: var(--t3); }
+  .needs dd { margin: 0; color: var(--t1); }
+  #installer .cta { margin-top: 36px; }
+  .more { font-size: 14px; color: var(--t2); margin-left: 8px; }
 
   .faq { border-top: 1px solid var(--line); }
   details { border-bottom: 1px solid var(--line); }
-  summary { cursor: pointer; padding: 14px 0; color: var(--white); font-size: 14px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary { cursor: pointer; padding: 16px 0; font-size: 16px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
   summary::-webkit-details-marker { display: none; }
-  summary::after { content: '+'; color: var(--green); }
+  summary::after { content: '+'; color: var(--t3); font-family: var(--mono); }
   details[open] summary::after { content: '−'; }
-  details p { margin: 0 0 16px; color: #9aa4af; font-size: 13px; max-width: 75ch; }
+  summary:hover::after { color: var(--acc); }
+  details p { margin: 0 0 18px; color: var(--t2); font-size: 15px; max-width: 75ch; }
 
-  .about p { color: #9aa4af; font-size: 14px; max-width: 72ch; margin: 0 0 12px; }
-  .about a { color: var(--green); }
+  .about p { color: var(--t2); max-width: 58ch; margin: 0 0 12px; }
+  .about .by { font-size: 14px; color: var(--t3); }
+  .about a { color: var(--acc); text-underline-offset: 3px; }
 
-  .foot { display: flex; gap: 24px; justify-content: space-between; flex-wrap: wrap; margin-top: 88px; padding-top: 22px; padding-bottom: 40px; border-top: 1px solid var(--line); font-size: 12px; color: #6b7580; }
+  .foot { display: flex; gap: 24px; justify-content: space-between; flex-wrap: wrap; margin-top: 104px; padding-top: 22px; padding-bottom: 40px; border-top: 1px solid var(--line); font-size: 13px; color: var(--t3); }
 
-  @media (max-width: 860px) {
-    .hero, .split { grid-template-columns: 1fr; gap: 36px; }
-    .facts, .pipe { grid-template-columns: 1fr 1fr; }
-    .pipe li::after { display: none; }
-    .steps, .needs { grid-template-columns: 1fr; }
-    .top nav a:not(:last-child) { display: none; }
+  @media (max-width: 960px) {
+    .acc { grid-template-columns: 1fr; }
+    .acc > :global(.demo) { max-width: 480px; }
+    .steps { grid-template-columns: 1fr 1fr; }
   }
-  @media (max-width: 480px) {
-    .facts, .pipe { grid-template-columns: 1fr; }
-    .wrap { padding: 0 20px; }
+  @media (max-width: 860px) {
+    .hero, .split { grid-template-columns: 1fr; gap: 28px; }
+    .hero { padding-top: 32px; }
+    .facts, .pipe { grid-template-columns: 1fr 1fr; }
+    .facts div:nth-child(3) { padding-left: 0; border-left: 0; }
+    .facts div:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .needs { grid-template-columns: 1fr; }
+    .top nav a:not(.lang) { display: none; }
+    h2 { margin-top: 80px; }
+  }
+  @media (max-width: 560px) {
+    .facts, .pipe, .points, .steps { grid-template-columns: 1fr; }
+    .facts div, .facts div + div { padding-left: 0; border-left: 0; }
+    .facts div + div { border-top: 1px solid var(--line); }
+    .shot-fig { margin-top: 40px; padding: 0 12px; }
+    .shot-fig figcaption { padding: 0 8px; }
+    .lead, .sec-lead { font-size: 16px; }
+    .cta .btn { flex: 1 1 100%; justify-content: center; }
+    .more { margin-left: 0; }
   }
 </style>

@@ -1,0 +1,62 @@
+---
+// Parcours D de l'appli v10 (SPEC.md § 6, étapes 3 et 4) : inviter quelqu'un, puis le code
+// de sécurité. Illustration (role="img"), libellés de l'appli.
+import { app } from '../i18n/content';
+interface Props { label: string }
+const { label } = Astro.props;
+const v = app.invite;
+const c = app.code;
+---
+<div class="demo" role="img" aria-label={label}>
+  <div class="dlg">
+    <div class="h">{v.title}</div>
+    <div class="lab">{v.who}</div>
+    <div class="inp">{v.pseudo}<span class="ok"><svg class="i" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10" /></svg>{v.found}</span></div>
+    <div class="lab">{v.during}</div>
+    <div class="seg">{v.durations.map((d, i) => <span class:list={{ on: i === v.durationOn }}>{d}</span>)}</div>
+    <div class="lab">{v.can}</div>
+    <div class="perms">
+      {v.rights.map((r) => <div class="perm"><span>{r.label}</span><span class:list={['sw', { off: !r.on, lock: r.locked }]}></span></div>)}
+    </div>
+    <div class="foot"><span class="sum">{v.summary}</span><span class="btn p">{v.send}</span></div>
+  </div>
+  <div class="dlg">
+    <div class="h">{c.title}</div>
+    <p class="hint">{c.hint}</p>
+    <div class="code">{c.groups.map((g) => <span class="mono">{g}</span>)}</div>
+    <div class="foot"><span class="btn s">{c.no}</span><span class="btn p grow">{c.yes}</span></div>
+  </div>
+</div>
+
+<style>
+  .demo { display: grid; gap: 16px; font-size: 14px; line-height: 1.35; user-select: none; }
+  .dlg { background: var(--bg); border: 1px solid #2a2b30; border-radius: 12px; padding: 22px; box-shadow: 0 16px 40px rgba(0, 0, 0, .35); }
+  .h { font-size: 18px; font-weight: 500; letter-spacing: -.01em; }
+  .lab { font-size: 12.5px; color: var(--t2); margin: 16px 0 6px; }
+  .inp { height: 40px; border-radius: 8px; background: var(--card); border: 1px solid var(--line); box-shadow: 0 0 0 1px rgba(93, 240, 160, .55); display: flex; align-items: center; padding: 0 12px; gap: 8px; }
+  .ok { margin-left: auto; color: var(--acc); font-size: 12.5px; display: flex; gap: 6px; align-items: center; }
+  .seg { display: flex; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 3px; }
+  .seg span { flex: 1; text-align: center; font-size: 13px; padding: 7px 0; border-radius: 6px; color: var(--t2); white-space: nowrap; }
+  .seg span.on { background: var(--raised); color: var(--t1); box-shadow: inset 0 0 0 1px #2c2d32; }
+  .perm { display: flex; align-items: center; gap: 12px; min-height: 40px; }
+  .perm + .perm { border-top: 1px solid var(--line); }
+  .sw { margin-left: auto; width: 36px; height: 20px; border-radius: 10px; background: var(--acc); position: relative; flex: none; }
+  .sw::after { content: ''; position: absolute; right: 3px; top: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--on-acc); }
+  .sw.off { background: #34363b; } .sw.off::after { left: 3px; right: auto; background: #8a8c92; }
+  .sw.lock { opacity: .6; }
+  .foot { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+  .sum { font-size: 12.5px; color: var(--t3); flex: 1; }
+  .btn { height: 40px; padding: 0 18px; border-radius: 8px; font-weight: 500; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
+  .btn.p { background: var(--acc); color: var(--on-acc); }
+  .btn.s { background: var(--raised); color: var(--t1); box-shadow: inset 0 0 0 1px #2c2d32; }
+  .grow { flex: 1; }
+  .hint { color: var(--t2); margin: 8px 0 0; }
+  .code { margin-top: 16px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .code span { background: var(--card); border: 1px solid var(--line); border-radius: 8px; height: 44px; display: grid; place-items: center; font-size: 18px; font-weight: 500; letter-spacing: .06em; }
+  @media (max-width: 420px) {
+    .dlg { padding: 18px; }
+    .seg span { font-size: 12.5px; }
+    .code span { font-size: 16px; letter-spacing: .03em; }
+    .foot:first-of-type { flex-wrap: wrap; }
+  }
+</style>
