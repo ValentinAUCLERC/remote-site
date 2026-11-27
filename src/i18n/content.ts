@@ -9,7 +9,7 @@ export const site = {
   releases: 'https://github.com/ValentinAUCLERC/remote-site/releases',
   // false tant qu'aucune release n'est publiée : bouton « bientôt » au lieu d'un lien mort.
   available: true,
-  zipSize: '57 Mo',
+  zipSize: '58 Mo',
   // Client Mac (Apple silicon) : publié avec chaque release depuis v4.
   macDownload: 'https://github.com/ValentinAUCLERC/remote-site/releases/latest/download/remote-macos.zip',
   macZipSize: '9 Mo',
